@@ -21,22 +21,18 @@ class NOPDumpGUI:
         self.root.geometry("800x600")
         self.root.resizable(True, True)
         
-        # Переменные
         self.is_scanning = False
         self.scan_thread = None
         
         self.setup_ui()
         
     def setup_ui(self):
-        # Main frame
         main_frame = ttk.Frame(self.root, padding="10")
         main_frame.grid(row=0, column=0, sticky=(N, W, E, S))
         
-        # Title
         title_label = ttk.Label(main_frame, text="NOPDump", font=("Arial", 16, "bold"))
         title_label.grid(row=0, column=0, columnspan=2, pady=(0, 10))
         
-        # Status frame
         status_frame = ttk.LabelFrame(main_frame, text="Status", padding="5")
         status_frame.grid(row=1, column=0, columnspan=2, sticky=(W, E), pady=(0, 10))
         
@@ -46,7 +42,6 @@ class NOPDumpGUI:
         self.progress = ttk.Progressbar(status_frame, mode='indeterminate')
         self.progress.grid(row=0, column=1, sticky=(W, E), padx=(10, 0))
         
-        # Info frame
         info_frame = ttk.LabelFrame(main_frame, text="Process Information", padding="5")
         info_frame.grid(row=2, column=0, columnspan=2, sticky=(W, E), pady=(0, 10))
         
@@ -62,14 +57,12 @@ class NOPDumpGUI:
         self.size_label = ttk.Label(info_frame, text="0x0 bytes")
         self.size_label.grid(row=2, column=1, sticky=W, padx=(5, 0))
         
-        # Console output
         console_frame = ttk.LabelFrame(main_frame, text="Console Output", padding="5")
         console_frame.grid(row=3, column=0, columnspan=2, sticky=(W, E, N, S), pady=(0, 10))
         
         self.console = scrolledtext.ScrolledText(console_frame, height=15, width=70)
         self.console.grid(row=0, column=0, sticky=(W, E, N, S))
         
-        # Buttons frame
         buttons_frame = ttk.Frame(main_frame)
         buttons_frame.grid(row=4, column=0, columnspan=2, pady=(0, 10))
         
@@ -82,7 +75,6 @@ class NOPDumpGUI:
         self.export_button = ttk.Button(buttons_frame, text="Export Offsets", command=self.export_offsets, state=DISABLED)
         self.export_button.grid(row=0, column=2, padx=(5, 0))
         
-        # Configure grid weights
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
         main_frame.columnconfigure(0, weight=1)
@@ -92,11 +84,9 @@ class NOPDumpGUI:
         console_frame.rowconfigure(0, weight=1)
         status_frame.columnconfigure(1, weight=1)
         
-        # Redirect stdout to console
         self.old_stdout = sys.stdout
         sys.stdout = TextRedirector(self.console, "stdout")
         
-        # Load patterns
         self.patterns = self.load_patterns()
         
     def load_patterns(self):
@@ -136,7 +126,6 @@ class NOPDumpGUI:
             self.progress.stop()
     
     def export_offsets(self):
-        # This would export the found offsets
         messagebox.showinfo("Export", "Offsets exported to offsets.txt")
     
     def scan_process(self):
@@ -256,8 +245,6 @@ class TextRedirector:
     
     def flush(self):
         pass
-
-# Ваши оригинальные функции (оставлены без изменений)
 
 TH32CS_SNAPPROCESS = 0x00000002
 TH32CS_SNAPMODULE = 0x00000008
