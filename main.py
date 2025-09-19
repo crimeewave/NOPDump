@@ -10,7 +10,7 @@ clear = lambda: os.system('cls')
 
 from colorama import Fore
 
-# rescore99
+# nixtera
 
 print("It can take up to 10 minutes. Please wait!")
 
