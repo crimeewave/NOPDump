@@ -1,6 +1,6 @@
 # NOPDump
 
-![NOPDump GUI](dumper_gui.png)
+![NOPDump GUI](dumper gui.jpg)
 
 > Advanced Roblox memory analysis and offsets extraction tool
 
