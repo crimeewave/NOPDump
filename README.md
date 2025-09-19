@@ -25,5 +25,16 @@ NOPDump is a powerful memory analysis tool designed specifically for extracting 
 ### Setup
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/NOPDump.git
+git clone https://github.com/crimeewave/NOPDump.git
 cd NOPDump
+```
+
+2. Run build.bat or main.py
+```bash
+build.bat
+```
+```bash
+main.py # cli
+# or
+main2.py # gui
+```
