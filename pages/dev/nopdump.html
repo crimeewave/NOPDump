@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOPDump - Roblox Offset Dumper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a0526 0%, #2d0b42 100%);
+            color: #e0d6eb;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect fill="rgba(90, 20, 140, 0.1)" x="0" y="0" width="100" height="100"/></svg>');
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            color: #a45deb;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(164, 93, 235, 0.5);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #c9a8ff;
+            text-shadow: 0 0 10px rgba(201, 168, 255, 0.4);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #b89ad6;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #6a3093 0%, #a044ff 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(106, 48, 147, 0.4);
+            margin-top: 10px;
+        }
+
+        .github-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 48, 147, 0.6);
+        }
+
+        .github-link i {
+            margin-right: 10px;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(45, 11, 66, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(164, 93, 235, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: #d2b3ff;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .card h2 i {
+            margin-right: 10px;
+            color: #a45deb;
+        }
+
+        .card p {
+            margin-bottom: 15px;
+            color: #d0c2e3;
+        }
+
+        .features {
+            margin: 20px 0;
+        }
+
+        .features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .features li i {
+            color: #a45deb;
+            margin-right: 10px;
+        }
+
+        .code-block {
+            background: rgba(26, 5, 38, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid rgba(164, 93, 235, 0.2);
+        }
+
+        pre {
+            white-space: pre-wrap;
+            color: #e0d6eb;
+            font-family: 'Consolas', monospace;
+        }
+
+        .download-section {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(142, 68, 173, 0.5);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(142, 68, 173, 0.7);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(164, 93, 235, 0.3);
+            color: #b89ad6;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        .glow {
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #a45deb, 0 0 10px #a45deb, 0 0 15px #a45deb;
+            }
+            to {
+                text-shadow: 0 0 10px #a45deb, 0 0 20px #a45deb, 0 0 30px #a45deb;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+            </div>
+            <h1>NOPDump <span class="glow">Roblox Offset Dumper</span></h1>
+            <p class="subtitle">A powerful tool for dumping Roblox PlayerBeta offsets using signatures from patterns.json</p>
+            <a href="https://github.com/crimeewave/NOPDump/" class="github-link" target="_blank">
+                <i class="fab fa-github"></i> GitHub Repository
+            </a>
+        </header>
+
+        <div class="content">
+            <div class="card">
+                <h2><i class="fas fa-terminal"></i> CLI Version</h2>
+                <p>The command-line version of NOPDump for automation and scripting purposes.</p>
+                
+                <div class="code-block">
+                    <pre>import ctypes
+import ctypes.wintypes as wintypes
+import sys
+import time
+import json
+from time import sleep
+import os
+
+clear = lambda: os.system('cls')
+
+from colorama import Fore
+
+print("It can take up to 10 minutes. Please wait!")
+
+print("Opening patterns...")
+with open("patterns.json", "r") as f:
+    patterns = json.load(f)
+print("Loading dumper...")</pre>
+                </div>
+                
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Scans Roblox process memory</li>
+                    <li><i class="fas fa-check-circle"></i> Uses pattern matching to find offsets</li>
+                    <li><i class="fas fa-check-circle"></i> Saves results to offsets.txt</li>
+                    <li><i class="fas fa-check-circle"></i> Works with RobloxPlayerBeta.exe</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-window-restore"></i> GUI Version</h2>
+                <p>The graphical user interface version with real-time scanning progress and output.</p>
+                
+                <div class="code-block">
+                    <pre>class NOPDumpGUI:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("NOPDump v0.1")
+        self.root.geometry("800x600")
+        self.root.resizable(True, True)
+        
+        self.is_scanning = False
+        self.scan_thread = None
+        
+        self.setup_ui()</pre>
+                </div>
+                
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Real-time scanning progress</li>
+                    <li><i class="fas fa-check-circle"></i> Interactive console output</li>
+                    <li><i class="fas fa-check-circle"></i> Process information display</li>
+                    <li><i class="fas fa-check-circle"></i> Export functionality</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="card">
+                <h2><i class="fas fa-star"></i> Features</h2>
+                <ul class="features">
+                    <li><i class="fas fa-microchip"></i> Memory scanning with pattern matching</li>
+                    <li><i class="fas fa-search"></i> Finds Roblox process automatically</li>
+                    <li><i class="fas fa-tachometer-alt"></i> Fast and efficient scanning algorithm</li>
+                    <li><i class="fas fa-file-export"></i> Exports offsets in standard format</li>
+                    <li><i class="fas fa-code"></i> Both CLI and GUI interfaces available</li>
+                    <li><i class="fas fa-windows"></i> Windows compatible</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-info-circle"></i> How It Works</h2>
+                <p>NOPDump scans the memory of the RobloxPlayerBeta.exe process to find specific patterns and calculate their offsets from the module base address.</p>
+                
+                <ul class="features">
+                    <li><i class="fas fa-plug"></i> Uses Windows API for process interaction</li>
+                    <li><i class="fas fa-puzzle-piece"></i> Loads patterns from patterns.json</li>
+                    <li><i class="fas fa-memory"></i> Scans committed memory regions</li>
+                    <li><i class="fas fa-calculator"></i> Calculates offsets from base address</li>
+                    <li><i class="fas fa-save"></i> Saves results to offsets.txt</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h2>Get NOPDump</h2>
+            <p>Download the latest version from GitHub to start dumping Roblox offsets</p>
+            <a href="https://github.com/crimeewave/NOPDump/" class="download-btn">
+                <i class="fas fa-download"></i> Download Now
+            </a>
+        </div>
+
+        <footer>
+            <p>NOPDump &copy; 2023 | Created by crimeewave</p>
+            <p>This tool is for educational purposes only</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+                card.classList.add('animate__animated', 'animate__fadeInUp');
+            });
+        });
+    </script>
+</body>
+</html>
